@@ -1,13 +1,36 @@
 Vagrant.configure("2") do |config|
 
   config.vm.define "kouferkaS" do |srv|
-          srv.vm.box = "ubuntu/trusty64"
-          srv.vm.hostname = "kouferkaS"
-          srv.vm.provider "virtualbox" do |v|
-            v.memory = 512
-            v.cpus = 1
-            v.name = "kouferkaS"
-          srv.vm.network :private_network, ip: "192.168.56.110"
-          end
-        end
-      end
+    srv.vm.box = "debian/bookworm64"
+    srv.vm.hostname = "kouferkaS"
+    srv.vm.provider "virtualbox" do |v|
+      v.gui = false
+      v.name = "kouferkaS"
+      v.customize [
+        'modifyvm', :id,
+        '--natdnshostresolver1', 'on',
+        '--memory', '1024',
+        '--cpus', '1'
+      ]
+    end
+    srv.vm.network :private_network, ip: "192.168.56.110"
+    srv.vm.provision "shell", path:  "srv.sh"
+  end
+
+  config.vm.define "kouferkaSW" do |srvw|
+    srvw.vm.box = "debian/bookworm64"
+    srvw.vm.hostname = "kouferkaSW"
+    srvw.vm.provider "virtualbox" do |v|
+      v.gui = false
+      v.name = "kouferkaSW"
+      v.customize [
+        'modifyvm', :id,
+        '--natdnshostresolver1', 'on',
+        '--memory', '1024',
+        '--cpus', '1'
+      ]
+    end
+    srvw.vm.network :private_network, ip: "192.168.56.111"
+    srvw.vm.provision "shell", path: "srvw.sh"
+  end
+end
