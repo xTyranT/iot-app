@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kouferka-app
+  name: iot-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kouferka-app
+      app: iot-app
   template:
     metadata:
       labels:
-        app: kouferka-app
+        app: iot-app
     spec:
       containers:
         - image: wil42/playground:v1
-          name: kouferka-app
+          name: iot-app
       ports:
         - containerPort: 8888
           name: http
