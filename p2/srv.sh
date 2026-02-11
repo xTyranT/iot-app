@@ -16,3 +16,5 @@ kubectl apply -n kube-system -f /vagrant/app1.yml --validate=false
 kubectl apply -n kube-system -f /vagrant/app2.yml --validate=false
 kubectl apply -n kube-system -f /vagrant/app3.yml --validate=false
 kubectl apply -n kube-system -f /vagrant/ingress.yml --validate=false
+
+kubectl wait --for=condition=Ready pods --all --timeout=69420s -n kube-system
