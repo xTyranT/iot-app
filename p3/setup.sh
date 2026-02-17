@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # cleaning
-sudo kubectl delete pods,services --all --all-namespaces 2>&1
+sudo kubectl delete pods,services --all --all-namespaces
 sudo kubectl delete "$(sudo kubectl api-resources --namespaced=true --verbs=delete -o name | tr "\n" "," | sed -e 's/,$//')" --all
 sudo k3d cluster delete --all
 
