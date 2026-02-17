@@ -1,0 +1,227 @@
+Name:             gitlab-sidekiq-all-in-1-v2-9b5888b54-nqddd
+Namespace:        gitlab
+Priority:         0
+Service Account:  default
+Node:             k3d-iot-kouferka-server-0/172.18.0.2
+Start Time:       Tue, 17 Feb 2026 20:39:01 +0000
+Labels:           app=sidekiq
+                  app.kubernetes.io/name=gitlab
+                  app.kubernetes.io/version=v18.8.4
+                  chart=sidekiq-9.8.4
+                  heritage=Helm
+                  pod-template-hash=9b5888b54
+                  queue-pod-name=all-in-1
+                  release=gitlab
+Annotations:      checksum/configmap: 452848e90761d176110612a12e45f31cae33a0d6f95494693db97b1b7fdf5a39
+                  cluster-autoscaler.kubernetes.io/safe-to-evict: true
+                  gitlab.com/prometheus_path: /metrics
+                  gitlab.com/prometheus_port: 3807
+                  gitlab.com/prometheus_scrape: true
+                  prometheus.io/path: /metrics
+                  prometheus.io/port: 3807
+                  prometheus.io/scrape: true
+Status:           Running
+SeccompProfile:   RuntimeDefault
+IP:               10.42.0.26
+IPs:
+  IP:           10.42.0.26
+Controlled By:  ReplicaSet/gitlab-sidekiq-all-in-1-v2-9b5888b54
+Init Containers:
+  certificates:
+    Container ID:   containerd://7299ae13f1c7529089c59bb7e24111fcd0dd6ca01d032270990ac20dfe41a557
+    Image:          registry.gitlab.com/gitlab-org/build/cng/certificates:v18.8.4
+    Image ID:       registry.gitlab.com/gitlab-org/build/cng/certificates@sha256:ea3f2f823f538c30b8e5be777589c6a48fdb89aba873ff07c3cecef486e5861c
+    Port:           <none>
+    Host Port:      <none>
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 17 Feb 2026 20:39:10 +0000
+      Finished:     Tue, 17 Feb 2026 20:39:13 +0000
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:  50m
+    Environment:
+      TZ:  UTC
+    Mounts:
+      /etc/pki/ca-trust/extracted/pem from etc-pki-ca-trust-extracted-pem (rw)
+      /etc/ssl/certs from etc-ssl-certs (rw)
+      /usr/local/share/ca-certificates from custom-ca-certificates (ro)
+  configure:
+    Container ID:  containerd://3dbb57cea0f1c2ecf3d121fdf6cdef5a1b5d6fde88dee732752ebc5bceecdc36
+    Image:         registry.gitlab.com/gitlab-org/build/cng/gitlab-base:v18.8.4
+    Image ID:      registry.gitlab.com/gitlab-org/build/cng/gitlab-base@sha256:a792ab6edb9b897c76b6dd35ce91fc00e6c403fe64824e522e08882ff5dd2751
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      /config/configure
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 17 Feb 2026 20:39:18 +0000
+      Finished:     Tue, 17 Feb 2026 20:39:18 +0000
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:  50m
+    Environment:
+      TZ:  UTC
+    Mounts:
+      /config from sidekiq-config (ro)
+      /init-config from init-sidekiq-secrets (ro)
+      /init-secrets from sidekiq-secrets (rw)
+  dependencies:
+    Container ID:  containerd://0838cf0314a0c820fdcd30ba514ca705aefc631dc3c3a9311cc51f2a0b523838
+    Image:         registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee:v18.8.4
+    Image ID:      registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee@sha256:0ced82a2ac0b8979ef05ab62fa8668730982a217009ce37d30e03161a8c85528
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      /scripts/wait-for-deps
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 17 Feb 2026 20:44:46 +0000
+      Finished:     Tue, 17 Feb 2026 20:45:04 +0000
+    Ready:          True
+    Restart Count:  2
+    Requests:
+      cpu:  50m
+    Environment:
+      CONFIG_TEMPLATE_DIRECTORY:  /var/opt/gitlab/templates
+      CONFIG_DIRECTORY:           /srv/gitlab/config
+      SIDEKIQ_CONCURRENCY:        20
+      SIDEKIQ_TIMEOUT:            25
+      TZ:                         UTC
+    Mounts:
+      /etc/gitlab from sidekiq-secrets (ro)
+      /etc/pki/ca-trust/extracted/pem from etc-pki-ca-trust-extracted-pem (ro)
+      /etc/ssl/certs/ from etc-ssl-certs (ro)
+      /srv/gitlab/config/secrets.yml from sidekiq-secrets (ro,path="rails-secrets/secrets.yml")
+      /var/opt/gitlab/templates from sidekiq-config (ro)
+Containers:
+  sidekiq:
+    Container ID:   containerd://692149acfdf02955ae90d07e36f4d16432c19d8cab629c220d0ae8b672632c56
+    Image:          registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee:v18.8.4
+    Image ID:       registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee@sha256:0ced82a2ac0b8979ef05ab62fa8668730982a217009ce37d30e03161a8c85528
+    Port:           3807/TCP (http-metrics)
+    Host Port:      0/TCP (http-metrics)
+    State:          Running
+      Started:      Tue, 17 Feb 2026 20:46:03 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    1
+      Started:      Tue, 17 Feb 2026 20:45:04 +0000
+      Finished:     Tue, 17 Feb 2026 20:46:02 +0000
+    Ready:          False
+    Restart Count:  1
+    Requests:
+      cpu:      900m
+      memory:   2G
+    Liveness:   http-get http://:3808/liveness delay=20s timeout=30s period=60s #success=1 #failure=3
+    Readiness:  http-get http://:3808/readiness delay=0s timeout=2s period=10s #success=1 #failure=3
+    Environment:
+      prometheus_multiproc_dir:              /metrics
+      CONFIG_TEMPLATE_DIRECTORY:             /var/opt/gitlab/templates
+      CONFIG_DIRECTORY:                      /srv/gitlab/config
+      SIDEKIQ_CONCURRENCY:                   20
+      SIDEKIQ_TIMEOUT:                       25
+      SIDEKIQ_QUEUES:                        
+      SIDEKIQ_DAEMON_MEMORY_KILLER:          1
+      SIDEKIQ_MEMORY_KILLER_CHECK_INTERVAL:  3
+      SIDEKIQ_MEMORY_KILLER_MAX_RSS:         2000000
+      SIDEKIQ_MEMORY_KILLER_GRACE_TIME:      900
+      SIDEKIQ_MEMORY_KILLER_SHUTDOWN_WAIT:   30
+      TZ:                                    UTC
+    Mounts:
+      /etc/gitlab from sidekiq-secrets (ro)
+      /etc/krb5.conf from sidekiq-config (rw,path="krb5.conf")
+      /etc/pki/ca-trust/extracted/pem from etc-pki-ca-trust-extracted-pem (ro)
+      /etc/ssl/certs/ from etc-ssl-certs (ro)
+      /metrics from sidekiq-metrics (rw)
+      /srv/gitlab/INSTALLATION_TYPE from sidekiq-config (rw,path="installation_type")
+      /srv/gitlab/config/initializers/smtp_settings.rb from sidekiq-config (rw,path="smtp_settings.rb")
+      /srv/gitlab/config/secrets.yml from sidekiq-secrets (rw,path="rails-secrets/secrets.yml")
+      /var/opt/gitlab/templates from sidekiq-config (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  sidekiq-metrics:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  sidekiq-config:
+    Type:           Projected (a volume that contains injected data from multiple sources)
+    ConfigMapName:  gitlab-sidekiq
+    Optional:       false
+  init-sidekiq-secrets:
+    Type:        Projected (a volume that contains injected data from multiple sources)
+    SecretName:  gitlab-rails-secret
+    Optional:    false
+    SecretName:  gitlab-gitaly-secret
+    Optional:    false
+    SecretName:  gitlab-redis-secret
+    Optional:    false
+    SecretName:  gitlab-postgresql-password
+    Optional:    false
+    SecretName:  gitlab-postgresql-password
+    Optional:    false
+    SecretName:  gitlab-registry-secret
+    Optional:    false
+    SecretName:  gitlab-registry-notification
+    Optional:    false
+    SecretName:  gitlab-gitlab-kas-secret
+    Optional:    false
+    SecretName:  gitlab-zoekt-basicauth
+    Optional:    true
+    SecretName:  gitlab-minio-secret
+    Optional:    false
+  sidekiq-secrets:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  etc-ssl-certs:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  etc-pki-ca-trust-extracted-pem:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  custom-ca-certificates:
+    Type:        Projected (a volume that contains injected data from multiple sources)
+    SecretName:  gitlab-wildcard-tls-ca
+    Optional:    false
+QoS Class:       Burstable
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                 node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  8m15s                  default-scheduler  Successfully assigned gitlab/gitlab-sidekiq-all-in-1-v2-9b5888b54-nqddd to k3d-iot-kouferka-server-0
+  Normal   Pulling    8m16s                  kubelet            spec.initContainers{certificates}: Pulling image "registry.gitlab.com/gitlab-org/build/cng/certificates:v18.8.4"
+  Normal   Pulled     8m7s                   kubelet            spec.initContainers{certificates}: Successfully pulled image "registry.gitlab.com/gitlab-org/build/cng/certificates:v18.8.4" in 8.556s (8.556s including waiting). Image size: 60156127 bytes.
+  Normal   Created    8m7s                   kubelet            spec.initContainers{certificates}: Created container certificates
+  Normal   Started    8m7s                   kubelet            spec.initContainers{certificates}: Started container certificates
+  Normal   Pulling    8m3s                   kubelet            spec.initContainers{configure}: Pulling image "registry.gitlab.com/gitlab-org/build/cng/gitlab-base:v18.8.4"
+  Normal   Started    7m59s                  kubelet            spec.initContainers{configure}: Started container configure
+  Normal   Created    7m59s                  kubelet            spec.initContainers{configure}: Created container configure
+  Normal   Pulled     7m59s                  kubelet            spec.initContainers{configure}: Successfully pulled image "registry.gitlab.com/gitlab-org/build/cng/gitlab-base:v18.8.4" in 4.23s (4.23s including waiting). Image size: 60154782 bytes.
+  Normal   Pulling    7m58s                  kubelet            spec.initContainers{dependencies}: Pulling image "registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee:v18.8.4"
+  Normal   Pulled     4m4s                   kubelet            spec.initContainers{dependencies}: Successfully pulled image "registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee:v18.8.4" in 3m54.086s (3m54.086s including waiting). Image size: 1111688650 bytes.
+  Warning  BackOff    2m43s                  kubelet            spec.initContainers{dependencies}: Back-off restarting failed container dependencies in pod gitlab-sidekiq-all-in-1-v2-9b5888b54-nqddd_gitlab(d74a5f1f-e957-4cdf-9982-b7480dd9fe51)
+  Normal   Created    2m31s (x3 over 4m4s)   kubelet            spec.initContainers{dependencies}: Created container dependencies
+  Normal   Started    2m31s (x3 over 4m4s)   kubelet            spec.initContainers{dependencies}: Started container dependencies
+  Normal   Pulled     2m31s (x2 over 3m23s)  kubelet            spec.initContainers{dependencies}: Container image "registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee:v18.8.4" already present on machine
+  Normal   Pulled     2m13s                  kubelet            spec.containers{sidekiq}: Container image "registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee:v18.8.4" already present on machine
+  Normal   Created    2m13s                  kubelet            spec.containers{sidekiq}: Created container sidekiq
+  Normal   Started    2m13s                  kubelet            spec.containers{sidekiq}: Started container sidekiq
+  Warning  Unhealthy  116s (x4 over 2m12s)   kubelet            spec.containers{sidekiq}: Readiness probe failed: Get "http://10.42.0.26:3808/readiness": dial tcp 10.42.0.26:3808: connect: connection refused
